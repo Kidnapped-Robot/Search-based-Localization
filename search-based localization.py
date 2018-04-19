@@ -1,3 +1,4 @@
+import operator
 from random import randint
 from Astar import aStarSearch
 from SearchProblem import SearchProblem
@@ -14,7 +15,7 @@ class localization:
 
     def search_and_localize(self):
     
-        goal = tuple(randint(0, self.dim), randint(0, self.dim))
+        goal = self.get_random_goal()
         
         problem = SearchProblem(self.start, goal, self.obstacles, self.dim)
             
@@ -22,7 +23,7 @@ class localization:
             
         #send path to MC to execute
              
-        while(1):
+        #while(1):
                 
             #position = car position
             #direction = car direction
@@ -34,7 +35,7 @@ class localization:
                 #send stop to MC
                 
                 #increment = self.get_obstacle_pos(direction)
-                #obstacle_pos = position + increment
+                #obstacle_pos = tuple(map(operator.add, position, increment))
                 
                 #self.add_obstacles(obstacle_pos)
                 
@@ -46,7 +47,8 @@ class localization:
                 
                 #self.start = goal
                 #break
-                
+            
+    
     def get_obstacle_pos(self, direction):
         
         return{
@@ -58,8 +60,23 @@ class localization:
                 
     def add_obstacles(self, obstacle):
         
-        self.obstacles.update(obstacle)
+        self.obstacles.add(obstacle)
         
+        
+    def get_obstacles(self):
+        
+        return self.obstacles
+        
+        
+    def get_random_goal(self):
+        
+        while(1):
+            
+            goal = tuple((randint(0, self.dim - 1), randint(0, self.dim - 1)))
+            
+            if(goal != self.start and goal not in self.obstacles):
+                return goal
+            
         
     def stop(self):
         
@@ -70,17 +87,45 @@ class localization:
         
                 
 start = (0, 0)
-obstacles = set([])
-map_d = 4
-obstacles_num = 5
+obstacles = set(())
+map_d = 4               #4 x 4
+obstacles_num = 3
 
 robot = localization(start, obstacles, map_d, obstacles_num)
+
 
 while(1):
     
     robot.search_and_localize()
     
     if(robot.stop()):
+        
+        obstacles = robot.get_obstacles()
         break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
             
