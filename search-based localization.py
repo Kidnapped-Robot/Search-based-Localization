@@ -1,5 +1,6 @@
 import operator
 import pickle
+from ultraSonicThreads import *
 from random import randint
 from Astar import aStarSearch
 from SearchProblem import SearchProblem
@@ -22,32 +23,55 @@ class localization:
             
         path = aStarSearch(problem)
             
-        #send path to MC to execute
+        i = 0
+        
+        position = self.start
+        action = path[i]
              
-        #while(1):
-                
-            #position = car position
-            #direction = car direction
+        while(i != len(path)):
             
-            #distance = ultra sonic readings
+            distance_west = distanceMeasurement(triggerList[0], echoList[0], 0)
+            distance_north = distanceMeasurement(triggerList[1], echoList[1], 1)
+            distance_east = distanceMeasurement(triggerList[2], echoList[2], 2)
                 
-            #if (distance < 10):
+            if (distance_west < 10 and action == "W"):
+                
+                 increment = self.get_obstacle_pos(action)
+                 obstacle = tuple(map(operator.add, position, increment))
+                 
+                 self.add_obstacles(obstacle)
+                 
+                 break
+                
+            elif(distance_north < 10 and action == "N"):
+                
+                 increment = self.get_obstacle_pos(action)
+                 obstacle = tuple(map(operator.add, position, increment))
+                 
+                 self.add_obstacles(obstacle)
+                 
+                 break
+                
+                
+            elif(distance_east < 10 and action == "E"):
+                
+                 increment = self.get_obstacle_pos(action)
+                 obstacle = tuple(map(operator.add, position, increment))
+                 
+                 self.add_obstacles(obstacle)
+                 
+                 break
+                 
+                
+            else:
+                
+                #send action to MC
+                increment = self.get_obstacle_pos(action)
+                position = tuple(map(operator.add, position, increment))
+                i += 1
+                if(i != len(path)):
+                    action = path[i]
             
-                #send stop to MC
-                
-                #increment = self.get_obstacle_pos(direction)
-                #obstacle_pos = tuple(map(operator.add, position, increment))
-                
-                #self.add_obstacles(obstacle_pos)
-                
-                #self.start = position
-                
-                #break
-                
-            #if(goal sign from MC):
-                
-                #self.start = goal
-                #break
             
     
     def get_obstacle_pos(self, direction):
