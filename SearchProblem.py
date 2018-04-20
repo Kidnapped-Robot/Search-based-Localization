@@ -69,14 +69,10 @@ class SearchProblem:
     def directionToVector(self, action):
         
         return{
-                "North": (0, 1),
-                "South": (0, -1),
-                "East" : (1, 0),
-                "West" : (-1, 0),
-                "NorthEast": (1, 1),
-                "NorthWest": (-1, 1),
-                "SouthEast": (1, -1),
-                "SouthWest": (-1, -1)}.get(action, (0, 0))
+                "N": (0, 1),
+                "S": (0, -1),
+                "E" : (1, 0),
+                "W" : (-1, 0)}.get(action, (0, 0))
 
     def getSuccessors(self, state):
 
@@ -85,7 +81,7 @@ class SearchProblem:
         successors = []
         x, y = state
           
-        for action in ["South", "North", "East", "West"]:
+        for action in ["S", "N", "E", "W"]:
           
             dx, dy = self.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
