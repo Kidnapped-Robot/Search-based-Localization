@@ -1,4 +1,5 @@
 import operator
+import pickle
 from random import randint
 from Astar import aStarSearch
 from SearchProblem import SearchProblem
@@ -102,6 +103,15 @@ while(1):
         
         obstacles = robot.get_obstacles()
         break
+        
+
+    
+#obstacles = [(1, 2), (2, 0)]
+
+#with open("obstacles", "wb") as fb:
+    #pickle.dump(obstacles, fb)
+
+
 
 
 
