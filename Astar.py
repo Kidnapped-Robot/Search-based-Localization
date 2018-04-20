@@ -1,5 +1,7 @@
+import pickle
 from SearchProblem import SearchProblem
 from utils import PriorityQueue
+
 
 
 def nullHeuristic(state, problem=None):
@@ -85,9 +87,12 @@ def aStarSearch(problem, heuristic=manhattanHeuristic):
 
 if(__name__ == "__main__"):
     
+    #with open("obstacles", "rb") as fp:
+        #obstacles = pickle.load(fp)
+        
+    obstacles = [(1, 2), (2, 4), (3, 3)]
     start = (0, 0)    
-    obstacles = [(3, 1), (1, 2), (3, 3)]
-    goal = (4, 4)
+    goal = (4, 0)
     
     problem = SearchProblem(start, goal, obstacles, 5)
     
