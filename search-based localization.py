@@ -19,16 +19,19 @@ class localization:
     
         goal = self.get_random_goal()
         
+
         problem = SearchProblem(self.start, goal, self.obstacles, self.dim)
             
         path = aStarSearch(problem)
-            
-        i = 0
         
+        
+        i = 0
+       
         position = self.start
         action = path[i]
+       
              
-        while(i != len(path)):
+        while(1):
             
             distance_west = distanceMeasurement(triggerList[0], echoList[0], 0)
             distance_north = distanceMeasurement(triggerList[1], echoList[1], 1)
@@ -41,6 +44,8 @@ class localization:
                  
                  self.add_obstacles(obstacle)
                  
+                 self.start = position
+                 
                  break
                 
             elif(distance_north < 10 and action == "N"):
@@ -49,6 +54,8 @@ class localization:
                  obstacle = tuple(map(operator.add, position, increment))
                  
                  self.add_obstacles(obstacle)
+                 
+                 self.start = position
                  
                  break
                 
@@ -60,6 +67,8 @@ class localization:
                  
                  self.add_obstacles(obstacle)
                  
+                 self.start = position
+                 
                  break
                  
                 
@@ -69,8 +78,15 @@ class localization:
                 increment = self.get_obstacle_pos(action)
                 position = tuple(map(operator.add, position, increment))
                 i += 1
-                if(i != len(path)):
-                    action = path[i]
+                
+                self.start = position
+                
+                if(i == len(path)):
+                    break
+                
+                action = path[i]
+                
+                
             
             
     
@@ -115,6 +131,10 @@ start = (0, 0)
 obstacles = set(())
 map_d = 4               #4 x 4
 obstacles_num = 3
+
+#distance_west = 5
+#distance_east = 10
+#distance_north = 1
 
 robot = localization(start, obstacles, map_d, obstacles_num)
 
