@@ -1,6 +1,7 @@
 import operator
+import numpy as np
 import pickle
-from ultraSonicThreads import *
+#from ultraSonicThreads import *
 from random import randint
 from Astar import aStarSearch
 from SearchProblem import SearchProblem
@@ -139,21 +140,30 @@ obstacles_num = 3
 robot = localization(start, obstacles, map_d, obstacles_num)
 
 
-while(1):
+while(10):
     
     robot.search_and_localize()
     
-    if(robot.stop()):
+    #if(robot.stop()):
         
-        obstacles = robot.get_obstacles()
-        break
+        #obstacles = robot.get_obstacles()
+        #break
         
+
+#obstacles = [(1, 2), (2, 3)] 
+
+obstacles = robot.get_obstacles()
+
+grid = np.zeros((map_d, map_d))
+
+for i in range(len(obstacles)):
+    grid[obstacles[i]] = 1
+    
+print(grid)
 
     
-#obstacles = [(1, 2), (2, 0)]
-
-#with open("obstacles", "wb") as fb:
-    #pickle.dump(obstacles, fb)
+with open("obstacles", "wb") as fb:
+    pickle.dump(obstacles, fb)
 
 
 
