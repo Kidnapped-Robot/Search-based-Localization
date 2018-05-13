@@ -87,14 +87,14 @@ def aStarSearch(problem, heuristic=manhattanHeuristic):
 
 if(__name__ == "__main__"):
     
-    #with open("obstacles", "rb") as fp:
-        #obstacles = pickle.load(fp)
+    with open("obstacles", "rb") as fp:
+        obstacles = pickle.load(fp)
         
-    obstacles = [(1, 2), (2, 4), (3, 3)]
+    #obstacles = [(1, 2), (2, 4), (3, 3)]
     start = (0, 0)    
-    goal = (4, 0)
+    goal = (3, 3)
     
-    problem = SearchProblem(start, goal, obstacles, 5)
+    problem = SearchProblem(start, goal, obstacles, 4)
     
     print(aStarSearch(problem))
     
