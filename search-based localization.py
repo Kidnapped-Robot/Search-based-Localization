@@ -49,6 +49,13 @@ class localization:
 
                  self.start = position
 
+                 #get image from hatem
+                 #send to MC to rotate 90 to the left
+                 ser.write('L')
+                 images[image] = position
+                 #send to MC to rotate 90 back
+                 ser.write('R')
+
                  break
 
             elif(distance_north < 10 and action == "N"):
@@ -59,6 +66,9 @@ class localization:
                  self.add_obstacles(obstacle)
 
                  self.start = position
+
+                 #get image from hatem
+                 images[image] = position
 
                  break
 
@@ -72,6 +82,13 @@ class localization:
 
                  self.start = position
 
+
+                 #send to MC to rotate 90 to the right
+                 ser.write('R')
+                 #get image from hatem
+                 images[image] = position
+                 #send to MC to rotate 90 back
+                 ser.write('L')
                  break
 
 
@@ -140,16 +157,21 @@ obstacles = set(())
 map_d = 4               #4 x 4
 obstacles_num = 3
 
+images = {}
+
 #distance_west = 5
 #distance_east = 10
 #distance_north = 1
 
 robot = localization(start, obstacles, map_d, obstacles_num)
 
+iterations = 0
 
-while(10):
+while(iterations < 10):
 
     robot.search_and_localize()
+
+    iterations += 1
 
     #if(robot.stop()):
 
@@ -171,3 +193,7 @@ print(grid)
 
 with open("obstacles", "wb") as fb:
     pickle.dump(obstacles, fb)
+
+
+with open("images", "wb") as fb:
+    pickle.dump(images, fb)
